@@ -31,5 +31,15 @@ body{
     font-size:2rem;
 }
 #form{
+    display:flex;
+    
+}
+#form-label{
+    display:flex;
+}
+.search-options{
+    border:2px solid black;
+    background-color:white;
+    position:absolute;
     
 }
