@@ -5,6 +5,8 @@ async function getWeather(searchTerm) {
         const result = await raw.json();
         tempDiv.textContent = Math.round(result.current.temp_f) + '°';
         cityDiv.textContent = result.location.name;
+        conditionicon.src=result.current.condition.icon;
+        console.log(result.current.condition.icon)
         conditionDiv.textContent = result.current.condition.text;
         updateForecast(searchTerm);
         await changeFontByTemp(tempDiv);
@@ -25,7 +27,6 @@ async function getForecast(searchTerm) {
     try {
         const result = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=0d4c610fe1a14000bb0154925231004&q=${searchTerm}`, { mode: 'cors' });
         const data = await result.json()
-        console.log(data.forecast.forecastday[0].hour);
         const hourArray = data.forecast.forecastday[0].hour;
         return hourArray;
     } catch (err) { console.log(`getForecast Error:  ${err}`) }
@@ -69,18 +70,20 @@ searchInput.oninput = async () => {
 const updateForecast = async (searchTerm) => {
     const hoursOfDay = await getForecast(searchTerm);
     document.querySelector('.grid-frame').innerHTML = '';
+    
     for (let h of hoursOfDay) {
+        let icon=h.condition.icon;
         let processedTime = removeDateFromTime(h.time);
         let processedTemp = (Math.round(h.temp_f)) + '°';
-        addHourDiv(processedTime, processedTemp);
+        addHourDiv(processedTime, processedTemp,icon);
     }
 }
 
-const addHourDiv = (time, temp) => {
+const addHourDiv = (time, temp,icon) => {
     let gridFrame = document.querySelector('.grid-frame');
     let hourPanel = document.createElement('div');
     hourPanel.className = 'hour-panel';
-    hourPanel.innerHTML = `<p class = 'temp'>${temp}</p><p class='hour'>${time}</p>`;
+    hourPanel.innerHTML = `<p class = 'temp'>${temp}</p><img src =${icon}><p class='hour'>${time}</p>`;
     gridFrame.appendChild(hourPanel);
     changeFontByTemp(hourPanel.childNodes[0]);
 }
@@ -127,9 +130,7 @@ const removeDateFromTime = (string) => {
 
 }
 const changeFontByTemp = async (div) => {
-    console.log(div);
     const temperature = Number(div.textContent.replace('°', ''));
-    console.log(temperature)
     if (temperature >= 90)
         div.style.color = 'red';
     else if (temperature >= 75)

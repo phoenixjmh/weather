@@ -17,7 +17,7 @@ body{
 .widget{
     padding-top:2.5rem;
     width:clamp(600px,90%,900px);
-    height:70%;
+    height:clamp(500px,70%,550px);
     background-color: rgb(48, 48, 48);
     border-radius: 1rem;
     overflow:hidden;
@@ -53,13 +53,11 @@ body{
     display:flex;
     flex-direction:column;
     justify-content: flex-start;
-    gap:2rem;
     align-items: center;
     color:white;
 }
 #condition{
     position:relative;
-    top:2rem;
     font-size:1.5rem;
 }
 #temp{
@@ -132,6 +130,10 @@ body{
     box-shadow:inset 5px 5px 5px rgba(0, 0, 0, 0.535);
 
 }
+#conditionicon{
+    height:5rem;
+    width:5rem;
+}
  p.temp{
     font-size:2rem;
 }
@@ -151,6 +153,6 @@ body{
         height:100vh;
     }
     #temp{
-        font-size:9rem;
+        font-size:7rem;
     }
 }
